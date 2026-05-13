@@ -30,5 +30,10 @@ class AdminUserSeeder extends Seeder
 
             $user->syncRoles([$admin['role']]);
         }
+
+        User::query()
+            ->whereDoesntHave('roles')
+            ->get()
+            ->each(fn (User $user) => $user->assignRole('Super Admin'));
     }
 }
