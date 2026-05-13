@@ -1,0 +1,166 @@
+Alumni Association Website Walkthrough
+=====================================
+
+Project Overview
+----------------
+- Framework: Laravel 11
+- Admin CMS: Filament v3
+- Frontend: Blade + Tailwind (CDN)
+- Database (current .env): SQLite (database/database.sqlite)
+- Upload disk: public (storage/app/public, served through /storage)
+
+Main Commands to Access the Website
+-----------------------------------
+1. Open terminal in project folder:
+   C:\Users\Admin\OneDrive\Documents\Alumni\alumni-association
+
+2. Install dependencies (first time only):
+   composer install
+
+3. Ensure app key exists:
+   php artisan key:generate
+
+4. Create storage link (required for images/files):
+   php artisan storage:link
+
+5. Run migrations:
+   php artisan migrate
+
+6. Create admin user for CMS:
+   php artisan make:filament-user
+
+7. Start website:
+   php artisan serve
+
+8. Open in browser:
+   - Public site: http://127.0.0.1:8000
+   - Admin panel: http://127.0.0.1:8000/admin
+
+What Is Implemented
+-------------------
+Public Pages
+- Home (/)
+- About Us (/about-us)
+- Alumni Directory (/alumni-directory) with search/filter/pagination
+- Events list/detail (/events, /events/{slug})
+- News & Updates list/detail (/news-updates, /news-updates/{slug})
+- Registration page (/registration)
+- Contributions (/contributions)
+- Career & Networking (/career-networking)
+- Gallery list/detail (/gallery, /gallery/{slug})
+- Contact Us (/contact-us) with validated form + throttling
+
+Admin Resources (Filament)
+- Alumni
+- Event
+- News & Updates (NewsPost)
+- Gallery (GalleryAlbum + media)
+- Committee Members
+- Chapters
+- Bylaws (document uploads)
+- Site Settings
+- Static Pages
+- Donations (DonationCampaign)
+- Scholarships
+- Jobs (JobPosting)
+- Mentorship Programs
+- Contact Messages (inbox/status handling)
+
+How to Upload Images and Files
+------------------------------
+Prerequisite
+- Run: php artisan storage:link
+- Uploaded files are saved in storage/app/public and shown from /storage URLs.
+
+Where to upload each file type
+- Site logo + hero background:
+  Admin > Site Settings > Branding
+  Stored under: branding/
+
+- Alumni profile photos:
+  Admin > Alumni
+  Stored under: alumni/
+
+- Event cover + event media:
+  Admin > Events
+  Stored under: events/covers and events/media
+
+- News cover images:
+  Admin > News & Updates
+  Stored under: news/
+
+- Gallery album cover + gallery media:
+  Admin > Gallery
+  Stored under: gallery/albums and gallery/media
+
+- Committee member photos:
+  Admin > Committee Members
+  Stored under: committee/
+
+- Bylaw documents (PDF/doc files):
+  Admin > Bylaws
+  Stored under: bylaws/
+
+How to Upload Data (Content Entry Flow)
+---------------------------------------
+1. Login to /admin.
+2. Open a resource (example: Alumni, Events, News, etc.).
+3. Click Create.
+4. Fill fields and upload files where available.
+5. Save.
+6. For public visibility, ensure publish/active toggles are ON where applicable:
+   - News/Gallery/Static Pages: is_published
+   - Events: status (upcoming/past)
+   - Scholarships/Jobs/Mentorship/Donations: is_active
+
+Recommended Initial Setup Order
+-------------------------------
+1. Site Settings
+   - Organization name, short name, branding, contact/social links
+   - Registration links (portal/new alumni/update profile/membership/login)
+
+2. Static Pages
+   Fill these slugs first:
+   - home-welcome-message
+   - home-about-alumni-association
+   - home-vision-mission
+   - home-presidents-message
+   - about-history
+   - about-governing-body
+   - about-office-bearers
+   - about-constitution-bylaws
+   - contributions-intro
+   - career-networking-intro
+   - contact-intro
+
+3. Core Content
+   - Alumni, Events, News, Gallery, Chapters, Committee Members, Bylaws
+
+4. Optional/Extended Modules
+   - Donations, Scholarships, Jobs, Mentorship Programs
+
+Registration Page (Fixed Behavior)
+----------------------------------
+- Route: /registration
+- It now opens a proper registration page instead of silently redirecting.
+- If links are configured in Site Settings, users can open each registration action.
+- If links are not configured, users see a clear setup message instead of a broken flow.
+- Configure from:
+  Admin > Site Settings > Registration Links
+
+Troubleshooting
+---------------
+- Images not showing:
+  - Run php artisan storage:link
+  - Confirm file exists under storage/app/public
+
+- Blank public content:
+  - Check if records are marked published/active
+  - Verify required static page slugs are created
+
+- Contact form issues:
+  - Route is throttled at 5 requests per minute per client
+
+- Database issues:
+  - Current project is configured for SQLite in .env
+  - Ensure database/database.sqlite exists and php artisan migrate has run
