@@ -27,3 +27,23 @@ Route::get('/contact-us', [ContactController::class, 'index'])->name('contact.in
 Route::post('/contact-us', [ContactController::class, 'store'])->middleware('throttle:5,1')->name('contact.store');
 
 Route::get('/registration', [RegistrationController::class, 'index'])->name('registration.index');
+
+Route::get('/setup-admin', function () {
+    try {
+        $role = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'Super Admin', 'guard_name' => 'web']);
+        
+        $user = \App\Models\User::updateOrCreate(
+            ['email' => 'hasishmaradana@gmail.com'],
+            [
+                'name' => 'Super Admin',
+                'password' => \Illuminate\Support\Facades\Hash::make('hasish@2007'),
+                'is_active' => true,
+            ]
+        );
+        $user->assignRole($role);
+        
+        return 'Admin created successfully! You can now login at /admin with hasishmaradana@gmail.com and password: hasish@2007';
+    } catch (\Exception $e) {
+        return 'Error: ' . $e->getMessage();
+    }
+});
