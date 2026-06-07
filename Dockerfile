@@ -3,7 +3,7 @@
 # Production-ready image for Render deployment
 # =============================================================================
 #
-# Base: php:8.2-apache (matches composer.json "php": "^8.2")
+# Base: php:8.4-apache (matches composer.json "php": "^8.2" which allows ^8.4)
 # Database: MySQL (via environment variables — nothing hardcoded)
 # Frontend: Vite assets compiled via multi-stage build (Node 20)
 # Secrets: APP_KEY and all credentials come from environment variables
@@ -25,7 +25,7 @@ RUN npm run build
 # ---------------------------------------------------------------------------
 # Stage 2: Final application image
 # ---------------------------------------------------------------------------
-FROM php:8.2-apache
+FROM php:8.4-apache
 
 # ---------------------------------------------------------------------------
 # 1. Install system dependencies required by PHP extensions
