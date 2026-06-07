@@ -47,3 +47,16 @@ Route::get('/setup-admin', function () {
         return 'Error: ' . $e->getMessage();
     }
 });
+
+Route::get('/setup-permissions', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('permission:cache-reset');
+        \Illuminate\Support\Facades\Artisan::call('db:seed', [
+            '--class' => 'Database\Seeders\RolesAndPermissionsSeeder',
+            '--force' => true
+        ]);
+        return 'Permissions seeded successfully! You can now save your roles in the admin panel.';
+    } catch (\Exception $e) {
+        return 'Error: ' . $e->getMessage();
+    }
+});
