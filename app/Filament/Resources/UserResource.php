@@ -50,13 +50,11 @@ class UserResource extends AuthorizedResource
                 ->relationship('roles', 'name')
                 ->multiple()
                 ->preload()
-                ->searchable()
                 ->required()
                 ->columnSpanFull(),
             CheckboxList::make('permissions')
                 ->relationship('permissions', 'name')
                 ->columns(2)
-                ->searchable()
                 ->bulkToggleable()
                 ->columnSpanFull()
                 ->helperText('Use direct permissions only for exceptions; roles should carry most access.'),
@@ -86,10 +84,19 @@ class UserResource extends AuthorizedResource
             ])
             ->actions([
                 \Filament\Tables\Actions\EditAction::make(),
+                \Filament\Tables\Actions\DeleteAction::make()
+                    ->hidden(fn (User $record): bool => $record->hasRole('Super Admin')),
             ])
             ->bulkActions([
                 \Filament\Tables\Actions\BulkActionGroup::make([
-                    \Filament\Tables\Actions\DeleteBulkAction::make(),
+                    \Filament\Tables\Actions\DeleteBulkAction::make()
+                        ->action(function (\Illuminate\Database\Eloquent\Collection $records) {
+                            $records->each(function ($record) {
+                                if (!$record->hasRole('Super Admin')) {
+                                    $record->delete();
+                                }
+                            });
+                        }),
                 ]),
             ]);
     }
