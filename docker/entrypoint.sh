@@ -37,6 +37,11 @@ mkdir -p \
     storage/logs \
     bootstrap/cache
 
+if [ "${DB_CONNECTION}" = "sqlite" ]; then
+    echo "Using SQLite: Ensuring database.sqlite exists..."
+    touch database/database.sqlite
+fi
+
 # ---------------------------------------------------------------------------
 # 2. Fix permissions
 # ---------------------------------------------------------------------------
@@ -45,8 +50,8 @@ mkdir -p \
 # config/routes/views/events).
 # ---------------------------------------------------------------------------
 echo "[2/6] Setting file permissions..."
-chown -R www-data:www-data storage bootstrap/cache
-chmod -R 775 storage bootstrap/cache
+chown -R www-data:www-data storage bootstrap/cache database
+chmod -R 775 storage bootstrap/cache database
 
 # ---------------------------------------------------------------------------
 # 3. Create the public/storage -> storage/app/public symlink

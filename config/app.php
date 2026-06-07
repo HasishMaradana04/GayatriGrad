@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'debug' => true, // Temporarily hardcoded for debugging
+    'debug' => (bool) env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------

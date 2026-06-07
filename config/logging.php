@@ -18,7 +18,7 @@ return [
     |
     */
 
-    'default' => 'stderr', // Temporarily hardcoded for debugging
+    'default' => env('LOG_CHANNEL', 'stack'),
 
     /*
     |--------------------------------------------------------------------------
