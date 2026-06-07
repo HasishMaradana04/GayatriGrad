@@ -50,18 +50,27 @@ class RoleResource extends AuthorizedResource
                             $component->state($state);
                         })
                         ->saveRelationshipsUsing(function ($component, $state, $record) use ($module) {
-                            $modulePerms = \App\Support\AdminPermissions::modulePermissions($module);
-                            $currentPerms = $record->permissions->pluck('name')->toArray();
-                            
-                            $toRemove = array_diff($modulePerms, $state ?? []);
-                            foreach ($toRemove as $perm) {
-                                if (in_array($perm, $currentPerms)) {
-                                    $record->revokePermissionTo($perm);
+                            try {
+                                $modulePerms = \App\Support\AdminPermissions::modulePermissions($module);
+                                $currentPerms = $record->permissions->pluck('name')->toArray();
+                                
+                                $toRemove = array_diff($modulePerms, $state ?? []);
+                                foreach ($toRemove as $perm) {
+                                    if (in_array($perm, $currentPerms)) {
+                                        $record->revokePermissionTo($perm);
+                                    }
                                 }
-                            }
-                            
-                            if (!empty($state)) {
-                                $record->givePermissionTo($state);
+                                
+                                if (!empty($state)) {
+                                    $record->givePermissionTo($state);
+                                }
+                            } catch (\Spatie\Permission\Exceptions\PermissionDoesNotExist $e) {
+                                \Filament\Notifications\Notification::make()
+                                    ->title('Database Missing Permissions')
+                                    ->body("You must run 'php artisan db:seed --class=RolesAndPermissionsSeeder --force' on your live server to populate the database.")
+                                    ->danger()
+                                    ->send();
+                                throw new \Filament\Support\Exceptions\Halt();
                             }
                         })
                         ->dehydrated(false)
