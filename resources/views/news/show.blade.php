@@ -6,7 +6,7 @@
     <h1 class="heading-font mt-1 text-4xl font-black text-primary">{{ $news->title }}</h1>
     <p class="mt-2 text-sm text-gray-600">{{ $news->published_at?->format('d M Y, h:i A') }}</p>
     @if($news->cover_image_path)
-        <img src="{{ asset('storage/' . $news->cover_image_path) }}" class="mt-6 h-80 w-full rounded-xl object-cover" alt="{{ $news->title }}">
+        <img src="{{ asset('storage/' . $news->cover_image_path) }}" width="896" height="320" fetchpriority="high" decoding="async" class="mt-6 h-80 w-full rounded-xl object-cover" alt="{{ $news->title }}">
     @endif
     <div class="prose mt-6 max-w-none">{!! $news->content !!}</div>
 </article>

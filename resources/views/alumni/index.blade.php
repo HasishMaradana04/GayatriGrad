@@ -54,7 +54,7 @@
         @forelse($alumni as $person)
             <article class="rounded-xl border p-4">
                 <div class="flex items-center gap-3">
-                    <img src="{{ $person->profile_photo_path ? asset('storage/' . $person->profile_photo_path) : asset('images/alumni-logo.jpeg') }}" class="h-12 w-12 rounded-full object-cover" alt="{{ $person->name }}">
+                    <img src="{{ $person->profile_photo_path ? asset('storage/' . $person->profile_photo_path) : asset('images/alumni-logo.jpeg') }}" width="48" height="48" loading="lazy" decoding="async" class="h-12 w-12 rounded-full object-cover" alt="{{ $person->name }}">
                     <div>
                         <h3 class="font-semibold">{{ $person->name }}</h3>
                         <p class="text-xs text-gray-600">{{ $person->graduation_year }} • {{ $person->degree }}</p>

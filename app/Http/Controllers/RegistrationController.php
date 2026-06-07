@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SiteSetting;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 
 class RegistrationController extends Controller
@@ -10,7 +11,7 @@ class RegistrationController extends Controller
     public function index(): View
     {
         try {
-            $siteSetting = SiteSetting::current();
+            $siteSetting = Cache::remember('site-settings.current', now()->addHour(), fn () => SiteSetting::current());
         } catch (\Throwable) {
             $siteSetting = null;
         }

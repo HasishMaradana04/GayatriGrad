@@ -6,6 +6,7 @@ use App\Models\ContactMessage;
 use App\Models\StaticPage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 
 class ContactController extends Controller
@@ -13,7 +14,7 @@ class ContactController extends Controller
     public function index(): View
     {
         return view('contact.index', [
-            'intro' => StaticPage::query()->published()->where('slug', 'contact-intro')->first(),
+            'intro' => Cache::remember('contact.intro', now()->addHour(), fn () => StaticPage::query()->published()->where('slug', 'contact-intro')->first()),
         ]);
     }
 

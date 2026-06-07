@@ -12,7 +12,7 @@
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         @forelse($albums as $album)
             <a href="{{ route('gallery.show', $album) }}" class="overflow-hidden rounded-xl border hover:border-primary/40">
-                <img src="{{ $album->cover_image_path ? asset('storage/' . $album->cover_image_path) : asset('images/alumni-logo.jpeg') }}" alt="{{ $album->title }}" class="h-48 w-full object-cover">
+                <img src="{{ $album->cover_image_path ? asset('storage/' . $album->cover_image_path) : asset('images/alumni-logo.jpeg') }}" alt="{{ $album->title }}" width="384" height="192" loading="lazy" decoding="async" class="h-48 w-full object-cover">
                 <div class="p-4">
                     <p class="text-xs font-semibold uppercase text-accent">{{ ucfirst($album->album_type) }}</p>
                     <h2 class="text-xl font-semibold">{{ $album->title }}</h2>

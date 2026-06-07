@@ -13,7 +13,7 @@
     <div class="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         @forelse($upcomingEvents as $event)
             <article class="overflow-hidden rounded-xl border">
-                <img src="{{ $event->cover_image_path ? asset('storage/' . $event->cover_image_path) : asset('images/alumni-logo.jpeg') }}" class="h-40 w-full object-cover" alt="{{ $event->title }}">
+                <img src="{{ $event->cover_image_path ? asset('storage/' . $event->cover_image_path) : asset('images/alumni-logo.jpeg') }}" width="320" height="160" loading="lazy" decoding="async" class="h-40 w-full object-cover" alt="{{ $event->title }}">
                 <div class="p-4">
                     <p class="text-xs font-semibold uppercase text-accent">{{ str_replace('_', ' ', $event->event_type) }}</p>
                     <h3 class="font-semibold">{{ $event->title }}</h3>

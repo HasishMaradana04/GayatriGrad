@@ -10,6 +10,7 @@ use Filament\Forms\Form;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Models\Activity;
 
 class ActivityResource extends AuthorizedResource
@@ -35,6 +36,11 @@ class ActivityResource extends AuthorizedResource
     public static function canEdit(\Illuminate\Database\Eloquent\Model $record): bool
     {
         return false;
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with('causer');
     }
 
     public static function form(Form $form): Form

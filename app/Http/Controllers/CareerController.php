@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\JobPosting;
 use App\Models\MentorshipProgram;
 use App\Models\StaticPage;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 
 class CareerController extends Controller
@@ -12,7 +13,7 @@ class CareerController extends Controller
     public function index(): View
     {
         return view('career.index', [
-            'intro' => StaticPage::query()->published()->where('slug', 'career-networking-intro')->first(),
+            'intro' => Cache::remember('career.intro', now()->addHour(), fn () => StaticPage::query()->published()->where('slug', 'career-networking-intro')->first()),
             'jobs' => JobPosting::query()
                 ->active()
                 ->where(function ($query): void {

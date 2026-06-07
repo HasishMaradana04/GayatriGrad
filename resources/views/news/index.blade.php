@@ -21,7 +21,7 @@
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         @forelse($posts as $post)
             <article class="overflow-hidden rounded-xl border">
-                <img src="{{ $post->cover_image_path ? asset('storage/' . $post->cover_image_path) : asset('images/alumni-logo.jpeg') }}" alt="{{ $post->title }}" class="h-44 w-full object-cover">
+                <img src="{{ $post->cover_image_path ? asset('storage/' . $post->cover_image_path) : asset('images/alumni-logo.jpeg') }}" alt="{{ $post->title }}" width="384" height="176" loading="lazy" decoding="async" class="h-44 w-full object-cover">
                 <div class="p-4">
                     <p class="text-xs font-semibold uppercase text-accent">{{ str_replace('_', ' ', $post->post_type) }}</p>
                     <h2 class="mt-1 text-xl font-semibold">{{ $post->title }}</h2>

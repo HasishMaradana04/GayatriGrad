@@ -6,7 +6,7 @@
     <h1 class="heading-font mt-1 text-4xl font-black text-primary">{{ $event->title }}</h1>
     <p class="mt-2 text-gray-700">{{ $event->start_at?->format('d M Y, h:i A') }} • {{ $event->location }}</p>
     @if($event->cover_image_path)
-        <img src="{{ asset('storage/' . $event->cover_image_path) }}" alt="{{ $event->title }}" class="mt-6 h-80 w-full rounded-xl object-cover">
+        <img src="{{ asset('storage/' . $event->cover_image_path) }}" alt="{{ $event->title }}" width="1024" height="320" fetchpriority="high" decoding="async" class="mt-6 h-80 w-full rounded-xl object-cover">
     @endif
     <div class="prose mt-6 max-w-none">{!! $event->description !!}</div>
 </section>
@@ -17,7 +17,7 @@
         @forelse($event->media as $item)
             <article class="overflow-hidden rounded-xl border">
                 @if($item->media_type === 'photo' && $item->file_path)
-                    <img src="{{ asset('storage/' . $item->file_path) }}" class="h-44 w-full object-cover" alt="{{ $item->caption }}">
+                    <img src="{{ asset('storage/' . $item->file_path) }}" width="320" height="176" loading="lazy" decoding="async" class="h-44 w-full object-cover" alt="{{ $item->caption }}">
                 @elseif($item->media_type === 'video' && $item->video_url)
                     <iframe src="{{ $item->video_url }}" class="h-44 w-full" loading="lazy"></iframe>
                 @endif

@@ -8,29 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#8B2C2C',
-                        accent: '#B45309',
-                        soft: '#F8F6F4',
-                        ink: '#1F2937',
-                    },
-                    fontFamily: {
-                        heading: ['Merriweather', 'serif'],
-                        body: ['Source Sans 3', 'sans-serif'],
-                    },
-                },
-            },
-        }
-    </script>
-    <style>
-        body { font-family: 'Source Sans 3', sans-serif; color: #1F2937; }
-        .heading-font { font-family: 'Merriweather', serif; }
-    </style>
+    @vite('resources/css/app.css')
 </head>
 <body class="bg-white text-ink">
 <header class="border-b border-primary/10 bg-white/95 backdrop-blur">
@@ -40,7 +18,7 @@
     </div>
     <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
         <a href="{{ route('home') }}" class="flex items-center gap-3">
-            <img src="{{ $siteSetting?->logo_path ? asset('storage/' . $siteSetting->logo_path) : asset('images/alumni-logo.jpeg') }}" alt="Logo" class="h-12 w-12 rounded-full object-cover ring-2 ring-primary/20">
+            <img src="{{ $siteSetting?->logo_path ? asset('storage/' . $siteSetting->logo_path) : asset('images/alumni-logo.jpeg') }}" alt="Logo" width="48" height="48" decoding="async" class="h-12 w-12 rounded-full object-cover ring-2 ring-primary/20">
             <div>
                 <p class="heading-font text-lg font-bold text-primary">{{ $siteSetting?->short_name ?: 'Alumni Association' }}</p>
                 <p class="text-xs text-gray-600">{{ $siteSetting?->organization_name ?: 'University Community Network' }}</p>

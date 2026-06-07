@@ -22,7 +22,7 @@ class RecentActivityWidget extends TableWidget
 
     protected function getTableQuery(): Builder
     {
-        return Activity::query()->latest()->limit(10);
+        return Activity::query()->with('causer')->latest()->limit(10);
     }
 
     public function table(Table $table): Table

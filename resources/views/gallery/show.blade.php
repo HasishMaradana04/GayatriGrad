@@ -12,7 +12,7 @@
         @forelse($album->media as $item)
             <article class="overflow-hidden rounded-xl border">
                 @if($item->media_type === 'photo' && $item->file_path)
-                    <img src="{{ asset('storage/' . $item->file_path) }}" class="h-52 w-full object-cover" alt="{{ $item->caption }}">
+                    <img src="{{ asset('storage/' . $item->file_path) }}" width="384" height="208" loading="lazy" decoding="async" class="h-52 w-full object-cover" alt="{{ $item->caption }}">
                 @elseif($item->media_type === 'video' && $item->video_url)
                     <iframe src="{{ $item->video_url }}" class="h-52 w-full" loading="lazy"></iframe>
                 @endif

@@ -3,7 +3,7 @@
 @section('content')
 <section class="relative overflow-hidden bg-soft">
     @if($siteSetting?->hero_background_image)
-        <img src="{{ asset('storage/' . $siteSetting->hero_background_image) }}" alt="Hero" class="absolute inset-0 h-full w-full object-cover opacity-20">
+        <img src="{{ asset('storage/' . $siteSetting->hero_background_image) }}" alt="Hero" fetchpriority="high" decoding="async" class="absolute inset-0 h-full w-full object-cover opacity-20">
     @endif
     <div class="relative mx-auto max-w-7xl px-4 py-20">
         <h1 class="heading-font max-w-4xl text-4xl font-black text-primary md:text-6xl">
@@ -45,7 +45,7 @@
         @forelse($featuredAlumni as $person)
             <article class="rounded-xl border p-4">
                 <div class="flex items-center gap-4">
-                    <img src="{{ $person->profile_photo_path ? asset('storage/' . $person->profile_photo_path) : asset('images/alumni-logo.jpeg') }}" class="h-14 w-14 rounded-full object-cover" alt="{{ $person->name }}">
+                    <img src="{{ $person->profile_photo_path ? asset('storage/' . $person->profile_photo_path) : asset('images/alumni-logo.jpeg') }}" width="56" height="56" loading="lazy" decoding="async" class="h-14 w-14 rounded-full object-cover" alt="{{ $person->name }}">
                     <div>
                         <h3 class="font-semibold">{{ $person->name }}</h3>
                         <p class="text-sm text-gray-600">{{ $person->department }} • {{ $person->graduation_year }}</p>
@@ -99,7 +99,7 @@
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         @forelse($galleryPreview as $album)
             <a href="{{ route('gallery.show', $album) }}" class="overflow-hidden rounded-xl border">
-                <img src="{{ $album->cover_image_path ? asset('storage/' . $album->cover_image_path) : asset('images/alumni-logo.jpeg') }}" class="h-40 w-full object-cover" alt="{{ $album->title }}">
+                <img src="{{ $album->cover_image_path ? asset('storage/' . $album->cover_image_path) : asset('images/alumni-logo.jpeg') }}" width="320" height="160" loading="lazy" decoding="async" class="h-40 w-full object-cover" alt="{{ $album->title }}">
                 <div class="p-3">
                     <p class="font-semibold">{{ $album->title }}</p>
                     <p class="text-sm text-gray-600">{{ ucfirst($album->album_type) }} album</p>
