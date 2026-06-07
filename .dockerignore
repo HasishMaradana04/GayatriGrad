@@ -47,6 +47,8 @@ storage/logs/*
 storage/framework/sessions/*
 storage/framework/views/*
 storage/framework/cache/data/*
+bootstrap/cache/*
+!bootstrap/cache/.gitignore
 
 # --- Docker files (no need to copy themselves into the image) ---
 Dockerfile
