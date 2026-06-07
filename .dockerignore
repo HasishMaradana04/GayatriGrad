@@ -1,0 +1,57 @@
+# =============================================================================
+# .dockerignore — Alumni Association
+# Excludes files from the Docker build context to keep the image small
+# and prevent secrets from being baked into the container.
+# =============================================================================
+
+# --- Version control ---
+.git
+.gitattributes
+.gitignore
+
+# --- Environment files (secrets — must come from env vars, not files) ---
+.env
+.env.backup
+.env.production
+.env.example
+
+# --- Dependencies (rebuilt inside the container) ---
+vendor
+node_modules
+
+# --- Testing ---
+tests
+temp-test
+.phpunit.cache
+.phpunit.result.cache
+phpunit.xml
+
+# --- IDE and editor files ---
+.idea
+.vscode
+.fleet
+.editorconfig
+
+# --- Documentation (not needed in production image) ---
+README.md
+RUN_WEBSITE_COMMANDS.md
+walkthrough
+walkthrough.txt
+
+# --- OS files ---
+Thumbs.db
+.DS_Store
+
+# --- Storage runtime files (created at runtime, not needed in image) ---
+storage/logs/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/framework/cache/data/*
+
+# --- Docker files (no need to copy themselves into the image) ---
+Dockerfile
+.dockerignore
+docker-compose*.yml
+
+# --- Render blueprint (deployment config, not needed inside container) ---
+render.yaml

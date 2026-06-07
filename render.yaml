@@ -1,0 +1,115 @@
+# =============================================================================
+# render.yaml — Render Blueprint for Alumni Association
+# =============================================================================
+#
+# This file enables one-click deployment on Render.
+# See: https://docs.render.com/blueprint-spec
+#
+# Usage:
+#   1. Push this file to your repository
+#   2. Go to Render Dashboard → New → Blueprint
+#   3. Connect your repository
+#   4. Render will read this file and configure the service
+#   5. Set environment variable values in the Render dashboard
+#
+# IMPORTANT: All secrets (APP_KEY, DB_PASSWORD, etc.) must be set manually
+# in the Render dashboard. They are NOT stored in this file.
+# =============================================================================
+
+services:
+  - type: web
+    name: alumni-association
+    runtime: docker
+
+    # -------------------------------------------------------------------------
+    # Docker configuration
+    # -------------------------------------------------------------------------
+    # Render will build the image using the Dockerfile in the repo root.
+    # The dockerfilePath is optional since Dockerfile is in the default location.
+    # -------------------------------------------------------------------------
+    dockerfilePath: ./Dockerfile
+
+    # -------------------------------------------------------------------------
+    # Health check
+    # -------------------------------------------------------------------------
+    # Laravel 11 registers a health endpoint at /up (configured in
+    # bootstrap/app.php). Render uses this to verify the service is healthy.
+    # -------------------------------------------------------------------------
+    healthCheckPath: /up
+
+    # -------------------------------------------------------------------------
+    # Environment variables
+    # -------------------------------------------------------------------------
+    # sync: false means these values are managed in the Render dashboard,
+    # not committed to the repository. This prevents secrets from being
+    # stored in version control.
+    #
+    # Set these values in the Render dashboard after creating the service.
+    # -------------------------------------------------------------------------
+    envVars:
+      # --- Laravel Core ---
+      - key: APP_NAME
+        value: "Alumni Association"
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_URL
+        sync: false
+        # Set this to your Render URL, e.g., https://alumni-association.onrender.com
+      - key: APP_KEY
+        sync: false
+        # Generate with: php artisan key:generate --show
+        # Format: base64:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+      # --- Apache ServerName (used by the vhost config) ---
+      - key: SERVER_NAME
+        sync: false
+        # Set to your domain, e.g., alumni-association.onrender.com
+
+      # --- Database (MySQL) ---
+      # Render does not offer managed MySQL. Use an external provider
+      # (PlanetScale, Aiven, Railway, or self-hosted).
+      - key: DB_CONNECTION
+        value: mysql
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        value: "3306"
+      - key: DB_DATABASE
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+
+      # --- Session ---
+      # Uses database driver (matches config/session.php default).
+      # The sessions table is created by the users migration.
+      - key: SESSION_DRIVER
+        value: database
+
+      # --- Logging ---
+      # stderr sends logs to Render's log viewer for easy monitoring.
+      - key: LOG_CHANNEL
+        value: stack
+      - key: LOG_STACK
+        value: single
+      - key: LOG_LEVEL
+        value: error
+
+      # --- Cache & Queue ---
+      - key: CACHE_STORE
+        value: file
+      - key: QUEUE_CONNECTION
+        value: sync
+
+      # --- Filesystem ---
+      - key: FILESYSTEM_DISK
+        value: public
+
+      # --- Migrations ---
+      # Set to "true" on first deploy, then "false" for subsequent deploys
+      # (or leave "true" if you want auto-migrations on every deploy).
+      - key: RUN_MIGRATIONS
+        value: "false"
